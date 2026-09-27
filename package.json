@@ -1,0 +1,28 @@
+{
+  "name": "cdtn1-nguyenthephuong-l1",
+  "version": "1.0.0",
+  "description": "Sinh viên: Nguyễn Thế Phương  \r MSSV: 2374802010405  \r Track: SE",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thephuong-123/cdtn1-nguyenthephuong-l1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Thephuong-123/cdtn1-nguyenthephuong-l1/issues"
+  },
+  "homepage": "https://github.com/Thephuong-123/cdtn1-nguyenthephuong-l1#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
