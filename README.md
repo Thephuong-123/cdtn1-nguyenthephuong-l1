@@ -41,7 +41,8 @@ Sẽ cập nhật trong quá trình phát triển.
 
 - [x] Chốt phạm vi L1
 - [x] Khởi tạo Git repository
-- [ ] Khởi tạo Node.js project
-- [ ] Smoke test endpoint `/health`
+- [x] Khởi tạo Node.js project
+- [x] Smoke test endpoint `/health`
+- [x] Khởi tạo PostgreSQL và database `mekong_mobile_l1`
 - [ ] Module quản lý hồ sơ khách hàng
 - [ ] Module phát hiện và gộp hồ sơ trùng
