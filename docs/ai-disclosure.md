@@ -25,6 +25,7 @@
 | **ChatGPT** | Hướng dẫn khởi tạo Node.js/Express và tạo smoke test endpoint `/health`. | `package.json`, `package-lock.json`, `src/index.js`. | Đã tự chạy `node src/index.js`, truy cập `http://localhost:3000/health` và xác nhận kết quả `{"status":"ok"}`. Ảnh minh chứng lưu tại `docs/smoke-test-health.png`. |
 | **ChatGPT** | Hướng dẫn cài đặt và kiểm tra PostgreSQL, tạo cơ sở dữ liệu cho phạm vi L1. | Môi trường phát triển PostgreSQL; database `mekong_mobile_l1`; `.env.example`. | Đã tự kiểm tra PostgreSQL bằng `psql`, đăng nhập PostgreSQL và xác nhận database `mekong_mobile_l1` tồn tại. |
 | **ChatGPT** | Hỗ trợ xử lý các lỗi trong quá trình setup Git, GitHub và PostgreSQL. | Quá trình setup môi trường Buổi 2. | Đã đọc thông báo lỗi, thực hiện lại từng bước và kiểm tra kết quả sau khi sửa; Git push, Express smoke test và PostgreSQL đều chạy thành công. |
+| **ChatGPT** | Hỗ trợ rà soát User Story theo INVEST và MoSCoW; xây dựng tiêu chí chấp nhận Given–When–Then; hướng dẫn Use Case Diagram, đặc tả Use Case, SRS rút gọn và API Contract cho luồng L1. | `docs/srs.md`, `docs/use-case-l1.drawio`, `docs/api-contract.md`. | Đã đối chiếu với tài liệu Buổi 3, Buổi 4 và mẫu Track SE; tự chỉnh sửa nội dung theo phạm vi L1 và kiểm tra tính nhất quán giữa User Story, Use Case, FR và API endpoint. |
 
 ---
 
