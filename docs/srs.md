@@ -189,7 +189,7 @@ Sau khi gộp thành công, hệ thống chỉ sử dụng hồ sơ chuẩn cho 
 | FR2 | US2 | UC1 | MUST | |
 | FR3 | US3 | UC3 | SHOULD | |
 | FR4 | US4 | UC4 | SHOULD | |
-| FR5 | US5 | UC2, UC5 | SHOULD | |
+| FR5 | US5 | UC2 | SHOULD | |
 | FR6 | US6 | UC5 | SHOULD | |
 | FR7 | US7 | UC6 | SHOULD | |
 | FR8 | US8 | UC7 | MUST | |
