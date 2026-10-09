@@ -67,9 +67,6 @@ CREATE TABLE customer_merge (
         CHECK (primary_customer_id <> duplicate_customer_id)
 );
 
-CREATE INDEX idx_customer_phone
-ON customer(phone);
-
 CREATE INDEX idx_duplicate_status
 ON duplicate_candidate(status);
 

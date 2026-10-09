@@ -1,0 +1,98 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="arch-buoi5">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="KIẾN TRÚC HỆ THỐNG - L1 QUẢN LÝ VÀ HỢP NHẤT HỒ SƠ KHÁCH HÀNG" style="text;html=1;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="1100" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="presentation" value="PRESENTATION LAYER" style="swimlane;html=1;startSize=34;rounded=1;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="90" width="1440" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="screen1" value="Màn hình tra cứu khách hàng" style="rounded=1;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="presentation">
+          <mxGeometry x="80" y="65" width="320" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="screen2" value="Màn hình tạo/cập nhật hồ sơ" style="rounded=1;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="presentation">
+          <mxGeometry x="560" y="65" width="320" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="screen3" value="Màn hình so sánh/gộp hồ sơ trùng" style="rounded=1;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="presentation">
+          <mxGeometry x="1030" y="65" width="330" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="business" value="BUSINESS / SERVICE LAYER" style="swimlane;html=1;startSize=34;rounded=1;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="1440" height="220" as="geometry"/>
+        </mxCell>
+        <mxCell id="customerService" value="CustomerService&#xa;- create&#xa;- search&#xa;- detail&#xa;- update" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=12;" vertex="1" parent="business">
+          <mxGeometry x="80" y="60" width="330" height="115" as="geometry"/>
+        </mxCell>
+        <mxCell id="duplicateService" value="DuplicateService&#xa;- identify/list suspected duplicates&#xa;- compare" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=12;" vertex="1" parent="business">
+          <mxGeometry x="555" y="60" width="350" height="115" as="geometry"/>
+        </mxCell>
+        <mxCell id="mergeService" value="MergeService&#xa;- validate merge&#xa;- resolve conflicts&#xa;- merge&#xa;- transaction / integrity" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=12;" vertex="1" parent="business">
+          <mxGeometry x="1035" y="60" width="330" height="115" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="repository" value="REPOSITORY / DAO LAYER" style="swimlane;html=1;startSize=34;rounded=1;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="590" width="1440" height="165" as="geometry"/>
+        </mxCell>
+        <mxCell id="repo1" value="CustomerRepository" style="rounded=1;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="repository">
+          <mxGeometry x="100" y="60" width="300" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="repo2" value="DuplicateRepository" style="rounded=1;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="repository">
+          <mxGeometry x="570" y="60" width="300" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="repo3" value="MergeRepository" style="rounded=1;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="repository">
+          <mxGeometry x="1040" y="60" width="300" height="65" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="datastore" value="DATA STORE" style="swimlane;html=1;startSize=34;rounded=1;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="800" width="1440" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="postgres" value="PostgreSQL&#xa;PK / FK / UNIQUE / NOT NULL / Transaction" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;align=center;" vertex="1" parent="datastore">
+          <mxGeometry x="530" y="50" width="380" height="85" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="noteP" value="Presentation: nhận thao tác, hiển thị kết quả và lỗi; không chứa quy tắc nghiệp vụ, không truy cập CSDL trực tiếp." style="shape=note;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="985" width="420" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="noteB" value="Business/Service: chứa quy tắc nghiệp vụ của luồng L1; không phụ thuộc chi tiết công nghệ lưu trữ." style="shape=note;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="555" y="985" width="420" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="noteR" value="Repository: đọc/ghi dữ liệu, che giấu SQL; không chứa quy tắc nghiệp vụ." style="shape=note;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="985" width="380" height="75" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="outscope" value="NGOÀI PHẠM VI: phân khúc khách hàng, marketing, bảo hành, quản lý kho, bán hàng." style="text;html=1;align=center;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="420" y="1070" width="760" height="30" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e1" value="HTTP / JSON" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="presentation" target="business">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="Repository interface" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="business" target="repository">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="SQL" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="repository" target="datastore">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="d1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="screen1" target="customerService"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="d2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="screen2" target="customerService"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="d3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="screen3" target="duplicateService"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="d4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="screen3" target="mergeService"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="d5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="customerService" target="repo1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="d6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="duplicateService" target="repo2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="d7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="mergeService" target="repo3"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="r1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="repo1" target="postgres"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="r2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="repo2" target="postgres"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="r3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="repo3" target="postgres"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

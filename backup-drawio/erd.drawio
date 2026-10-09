@@ -290,7 +290,7 @@
             </mxGeometry>
           </mxCell>
         </UserObject>
-        <UserObject label="INDEX / UNIQUE:&#xa;- phone UNIQUE&#xa;&#xa;Phục vụ NFR1:&#xa;tra cứu số điện thoại&#xa;≤ 2 giây với 10.000 hồ sơ" plantUmlId="note_49" plantUmlBaseStyle="shape=note;size=10;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;fontColor=#000000;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=4;fontFamily=DejaVu Sans;" plantUmlBaseValue="INDEX:&#xa;- UNIQUE INDEX trên phone&#xa;&#xa;Phục vụ NFR1:&#xa;tra cứu số điện thoại&#xa;≤ 2 giây với 10.000 hồ sơ" id="mJczxQkPlkRjeg5Pxr7B-49">
+        <UserObject label="INDEX:&#xa;- UNIQUE INDEX trên phone&#xa;&#xa;Phục vụ NFR1:&#xa;tra cứu số điện thoại&#xa;≤ 2 giây với 10.000 hồ sơ" plantUmlId="note_49" plantUmlBaseStyle="shape=note;size=10;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;fontColor=#000000;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=4;fontFamily=DejaVu Sans;" plantUmlBaseValue="INDEX:&#xa;- UNIQUE INDEX trên phone&#xa;&#xa;Phục vụ NFR1:&#xa;tra cứu số điện thoại&#xa;≤ 2 giây với 10.000 hồ sơ" id="mJczxQkPlkRjeg5Pxr7B-49">
           <mxCell parent="mJczxQkPlkRjeg5Pxr7B-1" style="shape=note;size=10;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;fontColor=#000000;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=4;fontFamily=DejaVu Sans;" vertex="1">
             <mxGeometry height="118" width="196" x="458.08" y="421.71" as="geometry" />
           </mxCell>
