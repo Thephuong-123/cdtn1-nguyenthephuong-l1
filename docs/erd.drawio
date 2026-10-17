@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="al7IoSnipnxaTMJxkVzm">
-    <mxGraphModel dx="1741" dy="932" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2036" dy="1090" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -300,7 +300,7 @@
             <mxGeometry height="8" width="37" x="421.82" y="477.21" as="geometry" />
           </mxCell>
         </UserObject>
-        <UserObject label="Phục vụ:&#xa;US5 - cảnh báo nghi trùng&#xa;US6 - xem danh sách nghi trùng&#xa;US7 - so sánh hồ sơ" plantUmlId="note_51" plantUmlBaseStyle="shape=note;size=10;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;fontColor=#000000;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=4;fontFamily=DejaVu Sans;" plantUmlBaseValue="Phục vụ:&#xa;US5 - cảnh báo nghi trùng&#xa;US6 - xem danh sách nghi trùng&#xa;US7 - so sánh hồ sơ" id="mJczxQkPlkRjeg5Pxr7B-51">
+        <UserObject label="Phục vụ:&#xa;US1 - cảnh báo hồ sơ nghi trùng&#xa;US5 - xem danh sách nghi trùng&#xa;US6 - so sánh hồ sơ nghi trùng" plantUmlId="note_51" plantUmlBaseStyle="shape=note;size=10;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;fontColor=#000000;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=4;fontFamily=DejaVu Sans;" plantUmlBaseValue="Phục vụ:&#xa;US5 - cảnh báo nghi trùng&#xa;US6 - xem danh sách nghi trùng&#xa;US7 - so sánh hồ sơ" id="mJczxQkPlkRjeg5Pxr7B-51">
           <mxCell parent="mJczxQkPlkRjeg5Pxr7B-1" style="shape=note;size=10;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;fontColor=#000000;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=4;fontFamily=DejaVu Sans;" vertex="1">
             <mxGeometry height="83" width="226" x="426.52" y="985.89" as="geometry" />
           </mxCell>
@@ -310,7 +310,7 @@
             <mxGeometry height="41" width="8" x="535.2" y="945.89" as="geometry" />
           </mxCell>
         </UserObject>
-        <UserObject label="Phục vụ:&#xa;US8 - gộp hồ sơ trùng&#xa;Lưu lại thông tin lần gộp" plantUmlId="note_53" plantUmlBaseStyle="shape=note;size=10;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;fontColor=#000000;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=4;fontFamily=DejaVu Sans;" plantUmlBaseValue="Phục vụ:&#xa;US8 - gộp hồ sơ trùng&#xa;Lưu lại thông tin lần gộp" id="mJczxQkPlkRjeg5Pxr7B-53">
+        <UserObject label="Phục vụ:&#xa;US7 - gộp hồ sơ trùng&#xa;Lưu lại thông tin lần gộp" plantUmlId="note_53" plantUmlBaseStyle="shape=note;size=10;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;fontColor=#000000;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=4;fontFamily=DejaVu Sans;" plantUmlBaseValue="Phục vụ:&#xa;US8 - gộp hồ sơ trùng&#xa;Lưu lại thông tin lần gộp" id="mJczxQkPlkRjeg5Pxr7B-53">
           <mxCell parent="mJczxQkPlkRjeg5Pxr7B-1" style="shape=note;size=10;fillColor=#FEFFDD;strokeColor=#181818;fontSize=12;fontColor=#000000;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=4;fontFamily=DejaVu Sans;" vertex="1">
             <mxGeometry height="65" width="174" x="137.68" y="985.89" as="geometry" />
           </mxCell>
@@ -320,6 +320,12 @@
             <mxGeometry height="41" width="8" x="220.97" y="946.39" as="geometry" />
           </mxCell>
         </UserObject>
+        <mxCell id="OWqmZdsS6slGDlkM2f-d-1" parent="mJczxQkPlkRjeg5Pxr7B-1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;fillColor=#bac8d3;strokeColor=#23445d;" value="" vertex="1">
+          <mxGeometry height="200.05" width="270.75" x="790" y="370.00000000000006" as="geometry" />
+        </mxCell>
+        <mxCell id="OWqmZdsS6slGDlkM2f-d-2" parent="mJczxQkPlkRjeg5Pxr7B-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;pre dir=&quot;ltr&quot;&gt;&lt;code&gt;CHÚ THÍCH&lt;br/&gt;&lt;br/&gt;PK: Khóa chính&lt;br/&gt;FK: Khóa ngoại&lt;br/&gt;UNIQUE: Không trùng&lt;br/&gt;NOT NULL: Không để trống&lt;br/&gt;1 → 0..N: Một bản ghi cha có thể có&lt;br/&gt;0 hoặc nhiều bản ghi con&lt;/code&gt;&lt;/pre&gt;" vertex="1">
+          <mxGeometry height="180" width="196" x="800" y="380.03000000000003" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>

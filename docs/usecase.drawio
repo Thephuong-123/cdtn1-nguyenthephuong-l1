@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="1rxpqytz295iA7EcpQkE">
-    <mxGraphModel dx="1560" dy="835" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1741" dy="932" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -20,7 +20,7 @@
           </mxCell>
         </UserObject>
         <mxCell id="GNVJGclnXOICAetq0mkU-1" parent="1" style="swimlane;whiteSpace=wrap;html=1;startSize=23;" value="&lt;span style=&quot;font-family: &amp;quot;DejaVu Sans&amp;quot;; font-size: 13px;&quot;&gt;Hệ thống: Quản lý &amp;amp; hợp nhất hồ sơ khách hàng (luồng L1)&lt;/span&gt;" vertex="1">
-          <mxGeometry height="790" width="280" x="750" y="250" as="geometry" />
+          <mxGeometry height="790" width="280" x="760" y="244" as="geometry" />
         </mxCell>
         <UserObject label="UC1: Tra cứu khách hàng&lt;br&gt;theo số điện thoại" plantUmlId="uc_1" plantUmlBaseStyle="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=13;fontFamily=DejaVu Sans;" plantUmlBaseValue="UC1: Tra cứu khách hàng&lt;br&gt;theo số điện thoại" id="GNVJGclnXOICAetq0mkU-23">
           <mxCell parent="GNVJGclnXOICAetq0mkU-1" style="ellipse;html=1;fillColor=#F1F1F1;strokeColor=#181818;whiteSpace=wrap;fontColor=#000000;fontSize=13;fontFamily=DejaVu Sans;" vertex="1">
@@ -136,6 +136,29 @@
             <mxGeometry relative="1" as="geometry">
               <mxPoint x="650" y="650" as="sourcePoint" />
               <mxPoint x="820" y="990" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;br&gt;&lt;b&gt;CHÚ THÍCH&lt;/b&gt;&lt;br&gt;&lt;br&gt;Hình người:&lt;br&gt;Actor - vai trò tương tác với hệ thống&lt;br&gt;&lt;br&gt;Hình bầu dục:&lt;br&gt;Use Case - chức năng của hệ thống&lt;br&gt;&lt;br&gt;Khung chữ nhật:&lt;br&gt;Ranh giới hệ thống&lt;br&gt;&lt;br&gt;Đường liền:&lt;br&gt;Actor tham gia Use Case&lt;br&gt;&lt;br&gt;«include»:&lt;br&gt;Use Case bắt buộc gọi Use Case khác&lt;br&gt;&lt;br&gt;«extend»:&lt;br&gt;Use Case mở rộng khi có điều kiện&lt;br&gt;&lt;br&gt;" plantUmlId="legend_1" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=15;fillColor=#DDDDDD;strokeColor=#000000;strokeWidth=1;fontColor=#000000;fontSize=14;fontFamily=DejaVu Sans;align=left;verticalAlign=top;spacing=0;spacingLeft=5;spacingTop=1;whiteSpace=wrap;html=1;" plantUmlBaseValue="&lt;br&gt;&lt;b&gt;CHÚ THÍCH&lt;/b&gt;&lt;br&gt;&lt;br&gt;Hình người:&lt;br&gt;Actor - vai trò tương tác với hệ thống&lt;br&gt;&lt;br&gt;Hình bầu dục:&lt;br&gt;Use Case - chức năng của hệ thống&lt;br&gt;&lt;br&gt;Khung chữ nhật:&lt;br&gt;Ranh giới hệ thống&lt;br&gt;&lt;br&gt;Đường liền:&lt;br&gt;Actor tham gia Use Case&lt;br&gt;&lt;br&gt;«include»:&lt;br&gt;Use Case bắt buộc gọi Use Case khác&lt;br&gt;&lt;br&gt;«extend»:&lt;br&gt;Use Case mở rộng khi có điều kiện&lt;br&gt;&lt;br&gt;" id="WcK3U2n1YfTaNMQ-lGbj-26">
+          <mxCell parent="1" style="rounded=1;absoluteArcSize=1;arcSize=15;fillColor=#DDDDDD;strokeColor=#000000;strokeWidth=1;fontColor=#000000;fontSize=14;fontFamily=DejaVu Sans;align=left;verticalAlign=top;spacing=0;spacingLeft=5;spacingTop=1;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="356.25" width="262.13" x="1150" y="440" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="actor_10" plantUmlBaseStyle="shape=umlActor;html=1;fillColor=#F1F1F1;strokeColor=#181818;fontColor=#000000;fontSize=13;fontFamily=DejaVu Sans;" plantUmlBaseValue="" id="WcK3U2n1YfTaNMQ-lGbj-27">
+          <mxCell parent="1" style="shape=umlActor;html=1;fillColor=#F1F1F1;strokeColor=#181818;fontColor=#000000;fontSize=13;fontFamily=DejaVu Sans;" vertex="1">
+            <mxGeometry height="60" width="40" x="630" y="930" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Quản lý cửa hàng" plantUmlId="actorlbl_11" plantUmlBaseStyle="text;html=1;align=center;verticalAlign=middle;spacingBottom=1;fontColor=#000000;fontSize=13;part=1;fontFamily=DejaVu Sans;" plantUmlBaseValue="Quản lý cửa hàng" id="WcK3U2n1YfTaNMQ-lGbj-28">
+          <mxCell parent="WcK3U2n1YfTaNMQ-lGbj-27" style="text;html=1;align=center;verticalAlign=middle;spacingBottom=1;fontColor=#000000;fontSize=13;part=1;fontFamily=DejaVu Sans;" vertex="1">
+            <mxGeometry height="17" width="126" x="-43" y="62" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="" plantUmlId="rel_21" plantUmlBaseStyle="endArrow=none;strokeColor=#181818;fontColor=#000000;fontSize=13;edgeStyle=none;rounded=0;html=1;fontFamily=DejaVu Sans;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;" plantUmlBaseValue="" id="WcK3U2n1YfTaNMQ-lGbj-29">
+          <mxCell edge="1" parent="1" source="WcK3U2n1YfTaNMQ-lGbj-27" style="endArrow=none;strokeColor=#181818;fontColor=#000000;fontSize=13;edgeStyle=none;rounded=0;html=1;fontFamily=DejaVu Sans;curved=0;endSize=6;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" target="GNVJGclnXOICAetq0mkU-29">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="710" y="940" as="sourcePoint" />
+              <mxPoint x="823" y="944" as="targetPoint" />
             </mxGeometry>
           </mxCell>
         </UserObject>

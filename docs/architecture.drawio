@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="hPd94y5Gdup-8DlM18Zs">
-    <mxGraphModel dx="1447" dy="-325" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1645" dy="-219" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -303,6 +303,11 @@
         <UserObject label="Sơ đồ kiến trúc hệ thống L1 - Quản lý và hợp nhất hồ sơ khách hàng" plantUmlId="title_55" plantUmlBaseStyle="text;html=1;fillColor=none;strokeColor=none;fontSize=14;fontStyle=1;fontColor=#000000;align=center;verticalAlign=middle;fontFamily=DejaVu Sans;" plantUmlBaseValue="Sơ đồ kiến trúc hệ thống L1 - Quản lý và hợp nhất hồ sơ khách hàng" id="P9Ydzc04GcsP9DB3L6WT-57">
           <mxCell parent="P9Ydzc04GcsP9DB3L6WT-1" style="text;html=1;fillColor=none;strokeColor=none;fontSize=14;fontStyle=1;fontColor=#000000;align=center;verticalAlign=middle;fontFamily=DejaVu Sans;" vertex="1">
             <mxGeometry height="24" width="481" x="159.34" y="1110" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;br&gt;&lt;b&gt;CHÚ THÍCH&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;pre dir=&quot;ltr&quot;&gt;&lt;code&gt;- Khung lớn: Một lớp của kiến trúc hệ thống&lt;br/&gt;- Khung nhỏ: Thành phần hoặc module bên trong lớp&lt;br/&gt;- Mũi tên: Hướng gọi hoặc phụ thuộc giữa các lớp&lt;br/&gt;- HTTP/JSON: Giao tiếp giữa Presentation và Business/Service&lt;br/&gt;- Repository Interface: Giao tiếp giữa Business/Service và Repository&lt;br/&gt;- SQL: Giao tiếp giữa Repository và PostgreSQL&lt;/code&gt;&lt;/pre&gt;" plantUmlId="legend_1" plantUmlBaseStyle="rounded=1;absoluteArcSize=1;arcSize=15;fillColor=#DDDDDD;strokeColor=#000000;strokeWidth=1;fontColor=#000000;fontSize=14;fontFamily=DejaVu Sans;align=left;verticalAlign=top;spacing=0;spacingLeft=5;spacingTop=1;whiteSpace=wrap;html=1;" plantUmlBaseValue="&lt;br&gt;&lt;b&gt;CHÚ THÍCH&lt;/b&gt;&lt;br&gt;&lt;br&gt;Hình người:&lt;br&gt;Actor - vai trò tương tác với hệ thống&lt;br&gt;&lt;br&gt;Hình bầu dục:&lt;br&gt;Use Case - chức năng của hệ thống&lt;br&gt;&lt;br&gt;Khung chữ nhật:&lt;br&gt;Ranh giới hệ thống&lt;br&gt;&lt;br&gt;Đường liền:&lt;br&gt;Actor tham gia Use Case&lt;br&gt;&lt;br&gt;«include»:&lt;br&gt;Use Case bắt buộc gọi Use Case khác&lt;br&gt;&lt;br&gt;«extend»:&lt;br&gt;Use Case mở rộng khi có điều kiện&lt;br&gt;&lt;br&gt;" id="REZEAEdJAp6prSQKXEbo-1">
+          <mxCell parent="1" style="rounded=1;absoluteArcSize=1;arcSize=15;fillColor=#DDDDDD;strokeColor=#000000;strokeWidth=1;fontColor=#000000;fontSize=14;fontFamily=DejaVu Sans;align=left;verticalAlign=top;spacing=0;spacingLeft=5;spacingTop=1;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="191" width="550" x="804.67" y="1645" as="geometry" />
           </mxCell>
         </UserObject>
       </root>
