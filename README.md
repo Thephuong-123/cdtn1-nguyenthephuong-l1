@@ -25,6 +25,18 @@ giúp dữ liệu khách hàng được thống nhất.
 - GitHub
 - Biến môi trường: xem `.env.example`
 
+- Node.js 24
+- npm
+- PostgreSQL 16
+- Biến môi trường: xem file `.env.example`
+- Cổng mặc định: 3000
+- Cơ sở dữ liệu: `mekong_mobile_l1`
+
+Các package chính:
+- express
+- pg
+- dotenv
+
 ## 3. Hướng dẫn chạy
 
 Sẽ cập nhật trong quá trình phát triển.
@@ -46,3 +58,27 @@ Sẽ cập nhật trong quá trình phát triển.
 - [x] Khởi tạo PostgreSQL và database `mekong_mobile_l1`
 - [ ] Module quản lý hồ sơ khách hàng
 - [ ] Module phát hiện và gộp hồ sơ trùng
+
+### Buổi 8 – Workshop xây dựng module cốt lõi Sprint 1
+
+- [x] Đã đọc và xử lý phản hồi Bài tập 1
+- [x] Đã tạo `docs/thay-doi-thiet-ke.md`
+- [x] Đã dựng cấu trúc mã nguồn theo kiến trúc 3 lớp:
+  - `routes/`
+  - `services/`
+  - `repositories/`
+- [x] Đã kết nối PostgreSQL
+- [x] Đã tạo migration theo DDL của BT1
+- [x] Đã nạp dữ liệu seed mẫu
+- [x] Đã hiện thực CRUD cho entity `customer`
+- [x] Đã chạy thành công:
+  - `GET /health`
+  - `GET /api/customers`
+  - `GET /api/customers?phone=...`
+- [x] Đã lưu ảnh minh chứng tại `docs/customer-module-success.png`
+
+### Chưa hoàn thành
+
+- [ ] Hoàn thiện module phát hiện hồ sơ nghi trùng
+- [ ] Hiện thực chức năng gộp hồ sơ
+- [ ] Bổ sung unit test cho lớp nghiệp vụ
