@@ -1,14 +1,21 @@
-const express = require("express");
+require('dotenv').config();
+
+const express = require('express');
+const customerRoutes = require('./routes/customer.routes');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.get("/health", (req, res) => {
+app.use(express.json());
+
+app.get('/health', (req, res) => {
   res.json({
-    status: "ok"
+    status: 'ok'
   });
 });
 
+app.use('/api/customers', customerRoutes);
+
 app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
