@@ -1,3 +1,4 @@
+
 {
   "name": "cdtn1-nguyenthephuong-l1",
   "version": "1.0.0",
@@ -8,7 +9,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test tests/duplicate-detection.test.js"
   },
   "repository": {
     "type": "git",
