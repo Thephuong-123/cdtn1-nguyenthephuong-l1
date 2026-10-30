@@ -1,10 +1,11 @@
-CREATE TABLE app_user (
+
+CREATE TABLE IF NOT EXISTS app_user (
     user_id BIGSERIAL PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
     role VARCHAR(30) NOT NULL
 );
 
-CREATE TABLE customer (
+CREATE TABLE IF NOT EXISTS customer (
     customer_id BIGSERIAL PRIMARY KEY,
     full_name VARCHAR(120) NOT NULL,
     phone VARCHAR(10) NOT NULL UNIQUE,
@@ -19,7 +20,7 @@ CREATE TABLE customer (
         REFERENCES app_user(user_id)
 );
 
-CREATE TABLE duplicate_candidate (
+CREATE TABLE IF NOT EXISTS duplicate_candidate (
     candidate_id BIGSERIAL PRIMARY KEY,
     customer_id_1 BIGINT NOT NULL,
     customer_id_2 BIGINT NOT NULL,
@@ -39,7 +40,7 @@ CREATE TABLE duplicate_candidate (
     CHECK (customer_id_1 <> customer_id_2)
 );
 
-CREATE TABLE customer_merge (
+CREATE TABLE IF NOT EXISTS customer_merge (
     merge_id BIGSERIAL PRIMARY KEY,
     primary_customer_id BIGINT NOT NULL,
     duplicate_customer_id BIGINT NOT NULL,
@@ -58,17 +59,17 @@ CREATE TABLE customer_merge (
     CHECK (primary_customer_id <> duplicate_customer_id)
 );
 
-CREATE INDEX idx_duplicate_status
+CREATE INDEX IF NOT EXISTS idx_duplicate_status
 ON duplicate_candidate(status);
 
-CREATE INDEX idx_duplicate_customer_1
+CREATE INDEX IF NOT EXISTS idx_duplicate_customer_1
 ON duplicate_candidate(customer_id_1);
 
-CREATE INDEX idx_duplicate_customer_2
+CREATE INDEX IF NOT EXISTS idx_duplicate_customer_2
 ON duplicate_candidate(customer_id_2);
 
-CREATE INDEX idx_merge_primary_customer
+CREATE INDEX IF NOT EXISTS idx_merge_primary_customer
 ON customer_merge(primary_customer_id);
 
-CREATE INDEX idx_merge_duplicate_customer
+CREATE INDEX IF NOT EXISTS idx_merge_duplicate_customer
 ON customer_merge(duplicate_customer_id);
