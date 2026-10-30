@@ -7,43 +7,41 @@ const detectionService = require('../services/duplicate-detection.service');
 
 // GET /api/duplicates
 // Lấy danh sách các cặp hồ sơ nghi trùng - US5
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
     const candidates = await duplicateService.getAllCandidates();
 
     return res.status(200).json(candidates);
 
   } catch (error) {
-    console.error('Get duplicates error:', error.message);
+    error.statusCode = 500;
+    error.publicCode = 'INTERNAL_SERVER_ERROR';
+    error.publicMessage = 'Không thể tải danh sách hồ sơ nghi trùng.';
 
-    return res.status(500).json({
-      error: 'INTERNAL_SERVER_ERROR',
-      message: 'Không thể tải danh sách hồ sơ nghi trùng.'
-    });
+    return next(error);
   }
 });
 
 // POST /api/duplicates/scan
 // Tự động rà soát và phát hiện hồ sơ nghi trùng
-router.post('/scan', async (req, res) => {
+router.post('/scan', async (req, res, next) => {
   try {
     const result = await detectionService.scanDuplicates();
 
     return res.status(200).json(result);
 
   } catch (error) {
-    console.error('Scan duplicates error:', error.message);
+    error.statusCode = 500;
+    error.publicCode = 'DUPLICATE_SCAN_FAILED';
+    error.publicMessage = 'Không thể quét hồ sơ nghi trùng.';
 
-    return res.status(500).json({
-      error: 'DUPLICATE_SCAN_FAILED',
-      message: 'Không thể quét hồ sơ nghi trùng.'
-    });
+    return next(error);
   }
 });
 
 // GET /api/duplicates/:id
 // Lấy chi tiết một cặp hồ sơ nghi trùng - US6
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const candidate = await duplicateService.getCandidateById(
       req.params.id
@@ -66,15 +64,11 @@ router.get('/:id', async (req, res) => {
       });
     }
 
-    console.error(
-      'Get duplicate by ID error:',
-      error.message
-    );
+    error.statusCode = 500;
+    error.publicCode = 'INTERNAL_SERVER_ERROR';
+    error.publicMessage = 'Không thể tải chi tiết hồ sơ nghi trùng.';
 
-    return res.status(500).json({
-      error: 'INTERNAL_SERVER_ERROR',
-      message: 'Không thể tải chi tiết hồ sơ nghi trùng.'
-    });
+    return next(error);
   }
 });
 

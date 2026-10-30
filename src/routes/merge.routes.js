@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 
@@ -6,7 +5,7 @@ const mergeService = require('../services/merge.service');
 
 // POST /api/merges
 // US7 - Gộp hồ sơ trong bản prototype CDTN1
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
     const result = await mergeService.mergeCustomers(req.body);
 
@@ -60,7 +59,7 @@ router.post('/', async (req, res) => {
       ]
     };
 
-    // Số điện thoại xung đột với hồ sơ đang hoạt động
+    // So dien thoai xung dot voi ho so dang hoat dong
     if (error.code === '23505') {
       return res.status(409).json({
         error: 'PHONE_ALREADY_EXISTS',
@@ -77,12 +76,13 @@ router.post('/', async (req, res) => {
       });
     }
 
-    console.error('Merge customers error:', error);
+    // Chuyen loi he thong ve Error Handler tap trung.
+    // Giu nguyen thong bao HTTP 500 cua API cu.
+    error.publicCode = 'INTERNAL_SERVER_ERROR';
+    error.publicMessage =
+      'Không thể gộp hồ sơ. Vui lòng kiểm tra dữ liệu.';
 
-    return res.status(500).json({
-      error: 'INTERNAL_SERVER_ERROR',
-      message: 'Không thể gộp hồ sơ. Vui lòng kiểm tra dữ liệu.'
-    });
+    return next(error);
   }
 });
 

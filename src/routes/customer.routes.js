@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 
@@ -6,7 +5,7 @@ const customerService = require('../services/customer.service');
 
 // GET /api/customers
 // GET /api/customers?phone=0901234567
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
     const { phone } = req.query;
 
@@ -25,16 +24,12 @@ router.get('/', async (req, res) => {
       });
     }
 
-    console.error('Get customers error:', error.message);
-
-    return res.status(500).json({
-      error: 'INTERNAL_SERVER_ERROR'
-    });
+    return next(error);
   }
 });
 
 // GET /api/customers/:id
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const customer = await customerService.getCustomerById(req.params.id);
 
@@ -47,16 +42,12 @@ router.get('/:id', async (req, res) => {
       });
     }
 
-    console.error('Get customer by ID error:', error.message);
-
-    return res.status(500).json({
-      error: 'INTERNAL_SERVER_ERROR'
-    });
+    return next(error);
   }
 });
 
 // POST /api/customers
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
     const customer = await customerService.createCustomer(req.body);
 
@@ -82,16 +73,12 @@ router.post('/', async (req, res) => {
       });
     }
 
-    console.error('Create customer error:', error.message);
-
-    return res.status(500).json({
-      error: 'INTERNAL_SERVER_ERROR'
-    });
+    return next(error);
   }
 });
 
 // PATCH /api/customers/:id
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   try {
     const customer = await customerService.updateCustomer(
       req.params.id,
@@ -120,17 +107,13 @@ router.patch('/:id', async (req, res) => {
       });
     }
 
-    console.error('Update customer error:', error.message);
-
-    return res.status(500).json({
-      error: 'INTERNAL_SERVER_ERROR'
-    });
+    return next(error);
   }
 });
 
 // DELETE /api/customers/:id
 // Xóa mềm bằng is_active = FALSE
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const customer = await customerService.deactivateCustomer(req.params.id);
 
@@ -146,11 +129,7 @@ router.delete('/:id', async (req, res) => {
       });
     }
 
-    console.error('Deactivate customer error:', error.message);
-
-    return res.status(500).json({
-      error: 'INTERNAL_SERVER_ERROR'
-    });
+    return next(error);
   }
 });
 
