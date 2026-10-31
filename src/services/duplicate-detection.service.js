@@ -1,5 +1,4 @@
-
-const pool = require('../config/db');
+const duplicateRepository = require('../repositories/duplicate.repository');
 
 // Chuẩn hóa tên tiếng Việt
 function normalizeText(value) {
@@ -101,14 +100,9 @@ function isPotentialDuplicate(a, b) {
 
 // Quét hồ sơ đang hoạt động và lưu các cặp nghi trùng
 async function scanDuplicates() {
-  const result = await pool.query(
-    `SELECT customer_id, full_name, phone, email, address
-     FROM customer
-     WHERE is_active = TRUE
-     ORDER BY customer_id`
-  );
+  const customers =
+    await duplicateRepository.findActiveCustomersForScan();
 
-  const customers = result.rows;
   let detected = 0;
   let created = 0;
 
@@ -124,26 +118,13 @@ async function scanDuplicates() {
       detected++;
 
       // Chỉ thêm nếu cặp này chưa tồn tại (kể cả đảo A/B)
-      const insertResult = await pool.query(
-        `INSERT INTO duplicate_candidate (
-           customer_id_1,
-           customer_id_2,
-           status
-         )
-         SELECT $1, $2, 'PENDING'
-         WHERE NOT EXISTS (
-           SELECT 1
-           FROM duplicate_candidate
-           WHERE
-             (customer_id_1 = $1 AND customer_id_2 = $2)
-             OR
-             (customer_id_1 = $2 AND customer_id_2 = $1)
-         )
-         RETURNING candidate_id`,
-        [a.customer_id, b.customer_id]
-      );
+      const wasCreated =
+        await duplicateRepository.insertCandidateIfNotExists(
+          a.customer_id,
+          b.customer_id
+        );
 
-      if (insertResult.rowCount > 0) {
+      if (wasCreated) {
         created++;
       }
     }

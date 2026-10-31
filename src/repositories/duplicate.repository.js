@@ -1,4 +1,3 @@
-
 const pool = require('../config/db');
 
 // Lấy danh sách các cặp hồ sơ nghi trùng
@@ -65,7 +64,47 @@ async function findCandidateById(id) {
   return result.rows[0];
 }
 
+// Lấy danh sách khách hàng đang hoạt động để quét nghi trùng
+async function findActiveCustomersForScan() {
+  const sql = `
+    SELECT customer_id, full_name, phone, email, address
+    FROM customer
+    WHERE is_active = TRUE
+    ORDER BY customer_id
+  `;
+
+  const result = await pool.query(sql);
+  return result.rows;
+}
+
+// Thêm cặp nghi trùng nếu chưa tồn tại, kể cả đảo thứ tự A/B
+async function insertCandidateIfNotExists(customerId1, customerId2) {
+  const sql = `
+    INSERT INTO duplicate_candidate (
+      customer_id_1,
+      customer_id_2,
+      status
+    )
+    SELECT $1, $2, 'PENDING'
+    WHERE NOT EXISTS (
+      SELECT 1
+      FROM duplicate_candidate
+      WHERE
+        (customer_id_1 = $1 AND customer_id_2 = $2)
+        OR
+        (customer_id_1 = $2 AND customer_id_2 = $1)
+    )
+    RETURNING candidate_id
+  `;
+
+  const result = await pool.query(sql, [customerId1, customerId2]);
+
+  return result.rowCount > 0;
+}
+
 module.exports = {
   findAllCandidates,
-  findCandidateById
+  findCandidateById,
+  findActiveCustomersForScan,
+  insertCandidateIfNotExists
 };
