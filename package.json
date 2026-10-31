@@ -2,13 +2,15 @@
 {
   "name": "cdtn1-nguyenthephuong-l1",
   "version": "1.0.0",
-  "description": "Sinh viên: Nguyễn Thế Phương  \r MSSV: 2374802010405  \r Track: SE",
-  "main": "index.js",
+  "description": "Sinh viên: Nguyễn Thế Phương | MSSV: 2374802010405 | Track: SE",
+  "main": "src/index.js",
   "directories": {
     "doc": "docs",
     "test": "tests"
   },
   "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
     "test": "node --test tests/*.test.js"
   },
   "repository": {

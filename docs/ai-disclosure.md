@@ -33,8 +33,18 @@
 
 ## III. CAM KẾT VỀ LIÊM CHÍNH HỌC THUẬT
 
-> **"Tôi xác nhận đã đọc, hiểu và chịu trách nhiệm về toàn bộ nội dung nộp."**
+> III. CAM KẾT VỀ LIÊM CHÍNH HỌC THUẬT
+"Tôi xác nhận đã đọc, hiểu và chịu trách nhiệm về toàn bộ nội dung nộp."
 
-- **Họ tên sinh viên:** Nguyễn Thế Phương
-- **MSSV:** 2374802010405
-- **Ngày khai báo:** 09/10/2026
+- Họ tên sinh viên: Nguyễn Thế Phương
+- MSSV: 2374802010405
+- Ngày khai báo ban đầu: 09/10/2026
+- Bổ sung nội dung BT2: 31/10/2026
+  PS C:\Users\PC\CDTN1\cdtn1-nguyenthephuong-l1>
+IV. BỔ SUNG KHAI BÁO SỬ DỤNG AI – BÀI TẬP 2
+Công cụ	Hoạt động AI hỗ trợ	File/phần liên quan	Kiểm chứng và trách nhiệm của sinh viên
+ChatGPT	Hướng dẫn bổ sung xác thực bằng username/password, bcrypt và JWT; phân quyền SALES/MANAGER	src/routes/auth.routes.js, src/services/auth.service.js, src/repositories/auth.repository.js, src/middleware/auth.middleware.js, src/routes/merge.routes.js, db/migrations/003_add_auth_columns.sql	Đã tự thao tác đăng nhập bằng hai vai trò, kiểm tra các mã HTTP 400/401/403 trong quá trình phát triển
+ChatGPT	Hỗ trợ kết nối React với API đăng nhập và xử lý lỗi ESLint; cập nhật hiển thị vai trò	frontend/src/App.jsx, frontend/src/api/client.js, frontend/src/api/auth.api.js, các màn hình CustomerList/DuplicateList/DuplicateCompare	Đã chạy npm run lint, npm run build, đăng nhập SALES và MANAGER, kiểm tra nút gộp theo vai trò
+ChatGPT	Hướng dẫn migrations/seeds, tạo bcrypt hash demo và kiểm thử từ database trống	db/migrations/003_add_auth_columns.sql, db/seeds/003_auth_demo.sql, scripts/setup-db.js	Đã chạy 3 migrations, 3 seeds trên mekong_mobile_l1_bt2_fresh; xác thực bcrypt cho 2 tài khoản thành công. Script setup-db.js mới kiểm tra cú pháp, chưa được xác nhận chạy thực tế
+ChatGPT	Hỗ trợ xây dựng/kiểm tra API, nghiệp vụ gộp và dữ liệu PostgreSQL, tài liệu kỹ thuật	API routes/services/repositories, docs/api-contract.md, docs/thay-doi-thiet-ke.md, README.md	Đã kiểm tra MANAGER gộp cặp #4/#5 trên database thử nghiệm, cặp chuyển MERGED, hồ sơ phụ ngừng hoạt động và có một bản ghi lịch sử
+ChatGPT	Hỗ trợ thiết kế kịch bản và đọc kết quả kiểm thử tự động	tests/duplicate-detection.test.js, tests/error-handler.test.js	Đã tự chạy npm test, 8/8 bài PASS. Chưa có bằng chứng test tự động cho JWT hay rollback giữa transaction

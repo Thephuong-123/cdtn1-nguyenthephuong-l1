@@ -12,13 +12,11 @@ const errorHandlerMiddleware = require('./middleware/error-handler.middleware');
 const customerRoutes = require('./routes/customer.routes');
 const duplicateRoutes = require('./routes/duplicate.routes');
 const mergeRoutes = require('./routes/merge.routes');
-
+const authRoutes = require('./routes/auth.routes');
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 // Middleware đọc dữ liệu JSON
 app.use(express.json());
-
 // Middleware tạo requestId cho mỗi HTTP request
 app.use(requestIdMiddleware);
 
@@ -29,6 +27,9 @@ app.use(requestLoggerMiddleware);
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
+
+// API đăng nhập
+app.use('/api/auth', authRoutes);
 
 // API khách hàng - US1 đến US4
 app.use('/api/customers', customerRoutes);

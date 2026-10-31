@@ -1,13 +1,23 @@
+
 const express = require('express');
 const router = express.Router();
 
 const mergeService = require('../services/merge.service');
 
+// Middleware xác thực và phân quyền
+const {
+  authenticate,
+  requireManager
+} = require('../middleware/auth.middleware');
+
 // POST /api/merges
-// US7 - Gộp hồ sơ trong bản prototype CDTN1
-router.post('/', async (req, res, next) => {
+// US7 - Gộp hồ sơ, chỉ tài khoản MANAGER được thực hiện
+router.post('/', authenticate, requireManager, async (req, res, next) => {
   try {
-    const result = await mergeService.mergeCustomers(req.body);
+    const result = await mergeService.mergeCustomers({
+      ...req.body,
+      manager_id: req.user.user_id
+    });
 
     return res.status(200).json(result);
 
@@ -59,7 +69,7 @@ router.post('/', async (req, res, next) => {
       ]
     };
 
-    // So dien thoai xung dot voi ho so dang hoat dong
+    // Số điện thoại xung đột với hồ sơ đang hoạt động
     if (error.code === '23505') {
       return res.status(409).json({
         error: 'PHONE_ALREADY_EXISTS',
@@ -76,8 +86,8 @@ router.post('/', async (req, res, next) => {
       });
     }
 
-    // Chuyen loi he thong ve Error Handler tap trung.
-    // Giu nguyen thong bao HTTP 500 cua API cu.
+    // Chuyển lỗi hệ thống về Error Handler tập trung.
+    // Giữ nguyên thông báo HTTP 500 của API cũ.
     error.publicCode = 'INTERNAL_SERVER_ERROR';
     error.publicMessage =
       'Không thể gộp hồ sơ. Vui lòng kiểm tra dữ liệu.';

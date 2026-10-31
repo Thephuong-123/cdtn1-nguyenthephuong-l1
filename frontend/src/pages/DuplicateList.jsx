@@ -1,51 +1,60 @@
-
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { duplicateApi } from '../api/duplicate.api';
 import DataState from '../components/DataState';
 import DuplicateCompare from './DuplicateCompare';
 
-export default function DuplicateList() {
+export default function DuplicateList({ user }) {
   const [candidates, setCandidates] = useState([]);
   const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const requestId = useRef(0);
 
-  // Tự quét và tải danh sách khi mở M3
+  // Tự quét và tải danh sách khi mở M3.
   const loadCandidates = useCallback(async () => {
+    const current = ++requestId.current;
     setLoading(true);
     setError(null);
 
     try {
-      // Bước 1: Quét tự động
       await duplicateApi.scan();
+      if (current !== requestId.current) return;
 
-      // Bước 2: Lấy danh sách mới nhất
       const data = await duplicateApi.getAll();
+      if (current !== requestId.current) return;
 
       setCandidates(Array.isArray(data) ? data : []);
     } catch (err) {
+      if (current !== requestId.current) return;
       setError(err.message);
       setCandidates([]);
     } finally {
-      setLoading(false);
+      if (current === requestId.current) setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    loadCandidates();
+    let cancelled = false;
+    Promise.resolve().then(() => {
+      if (!cancelled) void loadCandidates();
+    });
+    return () => {
+      cancelled = true;
+      requestId.current += 1;
+    };
   }, [loadCandidates]);
 
   function handleBackToList() {
     setSelected(null);
-    loadCandidates();
+    void loadCandidates();
   }
 
-  // US6 + US7: So sánh và gộp
   if (selected) {
     return (
       <DuplicateCompare
         candidateId={selected.candidate_id}
         onBack={handleBackToList}
+        user={user}
       />
     );
   }
@@ -65,7 +74,6 @@ export default function DuplicateList() {
           <span className="record-count">
             {loading || error ? '—' : candidates.length} cặp
           </span>
-
           <button
             type="button"
             className="btn-secondary"
@@ -94,22 +102,18 @@ export default function DuplicateList() {
                 <th>THAO TÁC</th>
               </tr>
             </thead>
-
             <tbody>
               {candidates.map(candidate => (
                 <tr key={candidate.candidate_id}>
                   <td>#{candidate.candidate_id}</td>
-
                   <td>
                     <strong>{candidate.customer_1_name}</strong>
                     <div>{candidate.customer_1_phone}</div>
                   </td>
-
                   <td>
                     <strong>{candidate.customer_2_name}</strong>
                     <div>{candidate.customer_2_phone}</div>
                   </td>
-
                   <td>
                     <span className="status-pill">
                       {candidate.status === 'PENDING'
@@ -119,7 +123,6 @@ export default function DuplicateList() {
                           : candidate.status}
                     </span>
                   </td>
-
                   <td>
                     <button
                       className="btn-detail"

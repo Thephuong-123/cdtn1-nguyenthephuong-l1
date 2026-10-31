@@ -1,10 +1,24 @@
+
+# Dependencies
 node_modules/
+
+# Build outputs
 dist/
 build/
 target/
+
+# Secrets
 .env
+.env.*
+!.env.example
+
+# Logs and coverage
 *.log
 coverage/
 
+# Backup files
+*.bak
+
+# Editor
 .idea/
 .vscode/settings.json

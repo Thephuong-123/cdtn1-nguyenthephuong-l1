@@ -1,5 +1,5 @@
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { duplicateApi } from '../api/duplicate.api';
 import { mergeApi } from '../api/merge.api';
 import DataState from '../components/DataState';
@@ -11,7 +11,8 @@ const fields = [
   { key: 'address', label: 'Địa chỉ' },
 ];
 
-export default function DuplicateCompare({ candidateId, onBack }) {
+export default function DuplicateCompare({ candidateId, onBack, user }) {
+  const isManager = user?.role === 'MANAGER';
   const [candidate, setCandidate] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,13 +24,16 @@ export default function DuplicateCompare({ candidateId, onBack }) {
   const [merging, setMerging] = useState(false);
   const [mergeError, setMergeError] = useState('');
   const [mergeSuccess, setMergeSuccess] = useState('');
+  const requestId = useRef(0);
 
   const loadCandidate = useCallback(async () => {
+    const current = ++requestId.current;
     setLoading(true);
     setError(null);
 
     try {
       const data = await duplicateApi.getById(candidateId);
+      if (current !== requestId.current) return;
 
       setCandidate(data);
       setPrimaryId(String(data.customer_id_1));
@@ -45,15 +49,24 @@ export default function DuplicateCompare({ candidateId, onBack }) {
       setMergeError('');
       setMergeSuccess('');
     } catch (err) {
+      if (current !== requestId.current) return;
       setCandidate(null);
       setError(err.message);
     } finally {
-      setLoading(false);
+      if (current === requestId.current) setLoading(false);
     }
   }, [candidateId]);
 
   useEffect(() => {
-    loadCandidate();
+    let cancelled = false;
+    Promise.resolve().then(() => {
+      if (!cancelled) void loadCandidate();
+    });
+
+    return () => {
+      cancelled = true;
+      requestId.current += 1;
+    };
   }, [loadCandidate]);
 
   function choosePrimary(id, side) {
@@ -83,6 +96,11 @@ export default function DuplicateCompare({ candidateId, onBack }) {
 
   async function handleMerge() {
     if (!candidate || merging || mergeSuccess) return;
+
+    if (!isManager) {
+      setMergeError('Chỉ tài khoản MANAGER mới được phép gộp hồ sơ.');
+      return;
+    }
 
     setMergeError('');
 
@@ -128,8 +146,7 @@ export default function DuplicateCompare({ candidateId, onBack }) {
         candidate_id: Number(candidate.candidate_id),
         primary_customer_id: Number(primaryId),
 
-        // Tài khoản quản lý mẫu của dự án CDTN1
-        manager_id: 2,
+        // Backend xác định người quản lý từ JWT, không tin ID do client gửi.
         manager_confirmed: true,
 
         selected_data: selectedData,
@@ -363,12 +380,11 @@ export default function DuplicateCompare({ candidateId, onBack }) {
                     setManagerConfirmed(event.target.checked);
                     setMergeError('');
                   }}
-                  disabled={merging || !!mergeSuccess}
+                  disabled={!isManager || merging || !!mergeSuccess}
                 />
 
                 <span>
-                  Xác nhận đã kiểm tra hai hồ sơ và được
-                  quản lý đồng ý gộp (mô phỏng CDTN1).
+                  Tôi đã kiểm tra và xác nhận hai hồ sơ thuộc cùng một khách hàng.
                 </span>
               </label>
 
@@ -379,8 +395,9 @@ export default function DuplicateCompare({ candidateId, onBack }) {
                   color: '#64748b',
                 }}
               >
-                Chức năng xác nhận này dùng cho demo localhost,
-                không thay thế hệ thống đăng nhập và phân quyền thật.
+                {isManager
+                  ? 'Bạn đang sử dụng quyền MANAGER. Hệ thống sẽ xác minh quyền lần nữa qua JWT.'
+                  : 'Tài khoản SALES chỉ được xem và so sánh. Chỉ MANAGER được xác nhận gộp hồ sơ.'}
               </p>
 
               {mergeError && (
@@ -413,6 +430,7 @@ export default function DuplicateCompare({ candidateId, onBack }) {
                   onClick={handleMerge}
                   disabled={
                     merging ||
+                    !isManager ||
                     !managerConfirmed ||
                     !!mergeSuccess ||
                     candidate.status !== 'PENDING'

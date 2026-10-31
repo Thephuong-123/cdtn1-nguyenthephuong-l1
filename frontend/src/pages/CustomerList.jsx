@@ -13,7 +13,7 @@ const menuItems = [
 ];
 const phoneIsValid = value => /^0\d{9}$/.test(value);
 
-export default function CustomerList() {
+export default function CustomerList({ user }) {
   const [activePage, setActivePage] = useState('overview');
   const [customers, setCustomers] = useState([]);
   const [phone, setPhone] = useState('');
@@ -56,8 +56,17 @@ export default function CustomerList() {
   }, []);
 
   useEffect(() => {
-    loadCustomers();
-    return () => { requestId.current += 1; };
+    let cancelled = false;
+
+    // Tải dữ liệu sau khi Effect đăng ký, tránh cập nhật State đồng bộ.
+    Promise.resolve().then(() => {
+      if (!cancelled) void loadCustomers();
+    });
+
+    return () => {
+      cancelled = true;
+      requestId.current += 1;
+    };
   }, [loadCustomers]);
 
   function navigate(page) {
@@ -206,8 +215,11 @@ export default function CustomerList() {
           ))}
         </nav>
         <div className="sidebar-bottom">
-          <div className="user-avatar">NV</div>
-          <div><strong>Nhân viên bán hàng</strong><small>Luồng L1 · Track SE</small></div>
+          <div className="user-avatar">{user?.role === 'MANAGER' ? 'QL' : 'NV'}</div>
+          <div>
+            <strong>{user?.full_name || user?.username || 'Người dùng'}</strong>
+            <small>{user?.role === 'MANAGER' ? 'Quản lý' : 'Nhân viên bán hàng'} · Luồng L1</small>
+          </div>
         </div>
       </aside>
 
@@ -310,7 +322,7 @@ export default function CustomerList() {
               <h1>Quản lý hồ sơ nghi trùng</h1><p>Kiểm tra và hợp nhất hồ sơ khách hàng có khả năng trùng.</p></div>
               <span className="heading-badge">M3 · So sánh và gộp</span></div>
             {/* US5: Danh sách nghi trùng lấy từ PostgreSQL qua API */}
-            <DuplicateList />
+            <DuplicateList user={user} />
           </>}
           <footer className="crm-footer">Mekong Mobile Smart CRM · Chuyên đề Tốt nghiệp 1 · Track SE</footer>
         </div>

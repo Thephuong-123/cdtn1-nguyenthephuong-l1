@@ -1,270 +1,125 @@
-# Quản lý và hợp nhất hồ sơ khách hàng trùng lặp
+Mekong Mobile CRM – Quản lý và hợp nhất hồ sơ khách hàng
+Sinh viên: Nguyễn Thế Phương
+MSSV: 2374802010405
+Track: SE – Luồng L1
+Học phần: Chuyên đề Tốt nghiệp 1 – HK1 2026–2027
+1. Tổng quan
+Ứng dụng hỗ trợ quản lý hồ sơ khách hàng, phát hiện cặp hồ sơ nghi trùng, so sánh và hợp nhất dữ liệu. Hệ thống gồm giao diện React, API Express và cơ sở dữ liệu PostgreSQL.
 
-**Sinh viên:** Nguyễn Thế Phương  
-**MSSV:** 2374802010405  
-**Track:** SE – Luồng L1  
-**Học phần:** Chuyên đề Tốt nghiệp 1 – HK1 2026–2027
-
-## 1. Mục tiêu
-
-Xây dựng hệ thống Mekong Mobile CRM hỗ trợ quản lý hồ sơ khách hàng, tự động phát hiện hồ sơ nghi trùng, so sánh và hợp nhất thông tin nhằm hạn chế dữ liệu trùng lặp.
-
-Hệ thống được phát triển theo kiến trúc phân lớp và có giao diện web để thao tác với dữ liệu thực tế trong PostgreSQL.
-
-## 2. Công nghệ sử dụng
-
-- **Frontend:** React, Vite
-- **Backend:** Node.js, Express.js
-- **Database:** PostgreSQL 16
-- **Kiểm thử:** Node.js Test Runner
-- **Quản lý mã nguồn:** Git, GitHub
-
-**Yêu cầu môi trường:** Node.js 24, npm và PostgreSQL 16.
-
-## 3. Hướng dẫn cài đặt và chạy
-
-### Bước 1: Clone dự án
-
-```powershell
+Các chức năng chính: tạo, xem danh sách, tra cứu, xem chi tiết, cập nhật và vô hiệu hóa hồ sơ khách hàng qua API; quét, xem và xử lý cặp nghi trùng; so sánh hai hồ sơ và chọn dữ liệu giữ lại; gộp hồ sơ có ghi lịch sử; đăng nhập JWT và phân quyền SALES / MANAGER. Chỉ MANAGER được quyền gọi API gộp.
+2. Công nghệ và yêu cầu
+- Node.js 24, npm
+- PostgreSQL 16
+- Backend: Express.js, pg, jsonwebtoken, bcryptjs
+- Frontend: React + Vite
+- Kiểm thử: Node.js Test Runner và ESLint
+3. Cài đặt từ GitHub trên Windows (PowerShell)
+3.1. Clone và cài dependency
 git clone https://github.com/Thephuong-123/cdtn1-nguyenthephuong-l1.git
 cd cdtn1-nguyenthephuong-l1
-```
-
-### Bước 2: Cài đặt thư viện
-
-Cài đặt thư viện Backend:
-
-```powershell
-npm install
-```
-
-Cài đặt thư viện Frontend:
-
-```powershell
+npm ci
 cd frontend
-npm install
+npm ci
 cd ..
-```
+3.2. Tạo .env
+Copy-Item .env.example .env
+Chỉnh .env (không đưa file này lên GitHub):
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=mekong_mobile_l1_bt2_local
+DB_USER=postgres
+DB_PASSWORD=MAT_KHAU_POSTGRESQL_CUA_BAN
+JWT_SECRET=THAY_BANG_CHUOI_BI_MAT_NGAU_NHIEN_DU_DAI
+PORT=3000
+- DB_NAME nên là tên database mới, chưa tồn tại, để cài đặt từ đầu và tránh đụng dữ liệu khác.
+- DB_USER cần quyền CREATEDB, hoặc database cần được tạo sẵn bằng tài khoản có quyền thích hợp.
+- JWT_SECRET cần một giá trị bí mật ngẫu nhiên, không sử dụng chung giá trị demo. Có thể tạo bằng lệnh:
+node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
+3.3. Khởi tạo database tự động
+Chạy tại thư mục gốc dự án:
+node scripts/setup-db.js
+Script tạo database mới theo DB_NAME, rồi chạy tuần tự:
+1. db/migrations/001_create_tables.sql
+2. db/migrations/002_active_phone_index.sql
+3. db/migrations/003_add_auth_columns.sql
+4. db/seeds/001_seed_data.sql
+5. db/seeds/002_duplicate_demo.sql
+6. db/seeds/003_auth_demo.sql
+Nếu database đã tồn tại, script dừng mặc định để tránh thay đổi dữ liệu. --existing chỉ dùng trên database demo đã được chủ động lựa chọn, vì nó có thể thực hiện INSERT/`UPDATE`.
 
-### Bước 3: Tạo database PostgreSQL
-
-Mở SQL Shell (psql), đăng nhập PostgreSQL và tạo database:
-
-```sql
-CREATE DATABASE mekong_mobile_l1;
-```
-
-Chuyển sang database vừa tạo:
-
-```sql
-\c mekong_mobile_l1
-```
-
-Kiểm tra database đang sử dụng:
-
-```sql
-SELECT current_database();
-```
-
-Kết quả cần là `mekong_mobile_l1`.
-
-### Bước 4: Chạy Migration
-
-Trong SQL Shell, thay `<DUONG_DAN_DU_AN>` bằng đường dẫn tuyệt đối đến thư mục dự án trên máy.
-
-Chạy Migration 001 để tạo bốn bảng:
-
-```sql
-\i '<DUONG_DAN_DU_AN>/db/migrations/001_create_tables.sql'
-```
-
-Chạy Migration 002 để thiết lập số điện thoại duy nhất đối với hồ sơ đang hoạt động:
-
-```sql
-\i '<DUONG_DAN_DU_AN>/db/migrations/002_active_phone_index.sql'
-```
-
-Ví dụ trên Windows:
-
-```sql
-\i 'C:/Users/PC/CDTN1/cdtn1-nguyenthephuong-l1/db/migrations/001_create_tables.sql'
-```
-
-**Lưu ý:** Chỉ chạy các migration khởi tạo một lần trên database mới. Không chạy lại `001_create_tables.sql` trên database đã có bảng.
-
-### Bước 5: Nạp dữ liệu mẫu
-
-Chạy file seed cơ bản:
-
-```sql
-\i '<DUONG_DAN_DU_AN>/db/seeds/001_seed_data.sql'
-```
-
-Chạy file seed phục vụ demo phát hiện hồ sơ nghi trùng:
-
-```sql
-\i '<DUONG_DAN_DU_AN>/db/seeds/002_duplicate_demo.sql'
-```
-
-Hai file seed tạo tổng cộng **5 khách hàng mẫu và 2 người dùng**.
-
-Kiểm tra:
-
-```sql
-SELECT COUNT(*) AS total_customers FROM customer;
-```
-
-Kết quả mong đợi: `5`.
-
-Dữ liệu trong các file seed là dữ liệu minh họa phục vụ kiểm thử, không phải dữ liệu khách hàng thực tế.
-
-### Bước 6: Cấu hình môi trường
-
-Tại thư mục gốc dự án, tạo file `.env` dựa trên `.env.example`.
-
-Điền các thông tin kết nối PostgreSQL theo cấu hình máy cá nhân.
-
-Đảm bảo cấu hình trỏ đến database vừa tạo:
-
-```dotenv
-DB_NAME=mekong_mobile_l1
-```
-
-Không đưa file `.env` chứa thông tin đăng nhập lên GitHub.
-
-### Bước 7: Khởi động Backend
-
-Tại thư mục gốc dự án:
-
-```powershell
-node src/index.js
-```
-
-Backend chạy tại:
-
-http://localhost:3000
-
-Kiểm tra kết nối:
-
-```powershell
+Nếu không có quyền tạo database: tạo trước database trống bằng công cụ quản trị PostgreSQL, sau đó chạy node scripts/setup-db.js --existing chỉ trên database trống vừa tạo.
+3.4. Chạy Backend
+Mở PowerShell ở thư mục gốc:
+npm start
+Backend: http://localhost:3000
+Kiểm tra sức khỏe:
 curl.exe http://localhost:3000/health
-```
-
-Kiểm tra API khách hàng:
-
-```powershell
-curl.exe http://localhost:3000/api/customers
-```
-
-### Bước 8: Khởi động Frontend
-
-Mở một terminal khác:
-
-```powershell
+Chế độ phát triển tự reload: npm run dev. Không chạy cả npm start và npm run dev cùng lúc trên port 3000.
+3.5. Chạy Frontend
+Mở terminal thứ hai:
 cd frontend
 npm run dev
-```
+Truy cập địa chỉ mà Vite hiển thị (thường http://localhost:5173). Vite proxy /api và /health sang Backend tại cổng 3000.
+3.6. Tài khoản demo (chỉ dùng localhost)
+Username	Password	Role
+sales	MekongDemo@2026!	SALES
+manager	MekongDemo@2026!	MANAGER
 
-Truy cập giao diện:
 
-http://localhost:5173
-
-Các chức năng có thể thao tác gồm quản lý khách hàng, phát hiện hồ sơ nghi trùng, so sánh và gộp hồ sơ.
-
-## 4. Cấu trúc dự án
-
-```text
+Mật khẩu trong database được lưu dạng bcrypt hash; mật khẩu demo được công khai để giảng viên thử chức năng. Không triển khai public với các tài khoản/mật khẩu demo này. Token JWT hiện lưu trong bộ nhớ tab; tải lại trang sẽ yêu cầu đăng nhập lại.
+4. Cấu trúc dự án
 cdtn1-nguyenthephuong-l1/
 ├── db/
-│   ├── migrations/
-│   │   ├── 001_create_tables.sql
-│   │   └── 002_active_phone_index.sql
-│   └── seeds/
-│       ├── 001_seed_data.sql
-│       └── 002_duplicate_demo.sql
-├── docs/
+│   ├── migrations/001_create_tables.sql, 002_active_phone_index.sql, 003_add_auth_columns.sql
+│   └── seeds/001_seed_data.sql, 002_duplicate_demo.sql, 003_auth_demo.sql
+├── docs/                      # SRS, API contract, sơ đồ và minh chứng
 ├── frontend/
+│   └── src/
+│       ├── api/               # API client, auth, customer, duplicate, merge
+│       ├── components/
+│       ├── pages/
+│       └── App.jsx
+├── scripts/setup-db.js
 ├── src/
 │   ├── config/
+│   ├── middleware/
 │   ├── repositories/
-│   ├── services/
 │   ├── routes/
+│   ├── services/
 │   └── index.js
 ├── tests/
 ├── .env.example
 ├── package.json
 └── README.md
-```
+Backend tổ chức theo hướng Routes → Services → Repositories → PostgreSQL; route nhận HTTP, service xử lý nghiệp vụ và repository truy cập SQL. Một số điểm ranh giới lớp vẫn cần rà soát trước khi coi kiến trúc đã hoàn toàn chuẩn.
+5. Quy tắc nghiệp vụ và phân quyền
+- Số điện thoại khách hàng phải hợp lệ và không được xung đột với hồ sơ đang hoạt động theo các ràng buộc của hệ thống.
+- Hệ thống phát hiện hồ sơ có dấu hiệu nghi trùng dựa trên thông tin họ tên, điện thoại, email và địa chỉ.
+- Chỉ cặp ở trạng thái PENDING mới được gộp. Việc gộp chọn hồ sơ chính, vô hiệu hóa hồ sơ phụ, cập nhật trạng thái MERGED và ghi lịch sử trong customer_merge.
+- Gộp cần xác nhận và quyền MANAGER từ JWT; người dùng SALES không được gộp (API từ chối bằng HTTP 403).
+- Các thao tác gộp sử dụng transaction để bảo đảm tính nhất quán dữ liệu.
+6. Kiểm thử
+6.1. Backend
+npm test
+Kết quả ghi nhận ngày 31/10/2026: 8/8 PASS (7 kiểm thử phát hiện nghi trùng, 1 kiểm thử middleware lỗi HTTP 500/requestId). Nhật ký mức error ở bài test HTTP 500 là kết quả thử lỗi có chủ đích.
+6.2. Frontend
+cd frontend
+npm run lint
+npm run build
+Kết quả ghi nhận: ESLint và Vite build PASS; 26 modules được biên dịch.
+6.3. Database và nghiệp vụ
+Đã kiểm thử trên database tách biệt:
+- Fresh Database: tạo mekong_mobile_l1_bt2_fresh; cả 3 migration và 3 seed PASS; tạo 2 users, 5 customers, 1 candidate ban đầu; xác nhận bcrypt khớp cho SALES và MANAGER.
+- Seed chạy lại: cả 3 seed PASS hai lượt trên mekong_mobile_l1_c5_final (không ghi nhận lỗi SQL).
+- Gộp bằng MANAGER: candidate #4 chuyển MERGED; customer #4 vẫn active, customer #5 inactive; customer_merge có lịch sử merge_id=1, merged_by=2.
+- Phân quyền: giao diện SALES khóa thao tác gộp, MANAGER có thể thực hiện; API SALES từng được kiểm tra trả 403.
+Chưa xác nhận: kiểm thử fresh clone từ bản GitHub đã push; kiểm thử rollback bằng cách gây lỗi SQL giữa transaction; bộ unit/integration test tự động cho toàn bộ endpoint CRUD và auth. Không xem các trường hợp này là đã PASS.
+7. Lưu ý bảo mật và giới hạn
+- Không commit .env, JWT secret thực hay mật khẩu PostgreSQL; chỉ commit .env.example với giá trị bí mật để trống.
+- Không commit node_modules, frontend/dist hay file sao lưu .bak.
+- Dữ liệu mẫu là dữ liệu minh họa; hệ thống phục vụ mục đích học tập và chạy cục bộ, chưa được kiểm thử đủ để triển khai công khai.
+- Nếu đổi API hoặc nghiệp vụ so với SRS/API Contract, cập nhật tài liệu tương ứng trong docs/.
+8. Repository
+GitHub: https://github.com/Thephuong-123/cdtn1-nguyenthephuong-l1
 
-Backend được tổ chức theo kiến trúc:
-
-**Routes → Services → Repositories → PostgreSQL**
-
-## 5. Kiểm thử
-
-### 5.1. Unit Tests
-
-Chạy tại thư mục gốc:
-
-```powershell
-node --test tests/duplicate-detection.test.js
-```
-
-**Kết quả đã kiểm thử:** 7 PASS, 0 FAIL.
-
-Các trường hợp bao gồm chuẩn hóa tên, phát hiện trùng email, tên và số điện thoại gần giống, phát hiện trùng theo tên và địa chỉ, trường hợp không trùng và dữ liệu thiếu.
-
-### 5.2. Kiểm thử database mới
-
-Đã tạo database thử nghiệm độc lập `mekong_mobile_l1_test` và chạy thành công:
-
-- Migration 001 và 002.
-- Seed 001 và 002.
-- API đọc đúng 5 hồ sơ khách hàng.
-
-Kết quả cho thấy có thể tái tạo cấu trúc database và dữ liệu mẫu từ các file SQL trong dự án.
-
-### 5.3. Kiểm thử gộp hồ sơ US7
-
-Đã kiểm thử thành công thao tác gộp hồ sơ trên database thử nghiệm:
-
-- Hồ sơ chính #5 tiếp tục hoạt động (`is_active = true`).
-- Hồ sơ phụ #4 được vô hiệu hóa (`is_active = false`).
-- Bảng `customer_merge` ghi nhận 1 giao dịch gộp.
-- Cặp nghi trùng được cập nhật trạng thái `MERGED`.
-
-### 5.4. Kiểm thử ngoại lệ
-
-Gửi lại yêu cầu gộp đối với cặp hồ sơ đã xử lý.
-
-**Kết quả:** API trả về HTTP 409.
-
-Kiểm tra PostgreSQL sau yêu cầu cho thấy trạng thái hai hồ sơ không thay đổi, tổng lịch sử gộp vẫn là 1 và cặp nghi trùng vẫn ở trạng thái `MERGED`.
-
-Đây là kiểm thử xử lý xung đột nghiệp vụ. Chưa kiểm thử riêng tình huống lỗi SQL xảy ra giữa transaction để xác minh rollback.
-
-## 6. Trạng thái chức năng
-
-| Chức năng | Trạng thái |
-|---|---|
-| US1 – Tạo hồ sơ khách hàng | Hoàn thành |
-| US2 – Tra cứu khách hàng | Hoàn thành |
-| US3 – Xem chi tiết hồ sơ | Hoàn thành |
-| US4 – Cập nhật hồ sơ | Hoàn thành |
-| US5 – Tự phát hiện hồ sơ nghi trùng | Đã triển khai |
-| US6 – So sánh hai hồ sơ | Hoàn thành |
-| US7 – Gộp hồ sơ khách hàng | Đã kiểm thử thành công trên database thử nghiệm |
-| Unit Tests | 7/7 PASS |
-
-### Giới hạn hiện tại
-
-- Xác nhận vai trò quản lý được mô phỏng trong bản demo localhost, chưa có cơ chế đăng nhập và xác thực hoàn chỉnh.
-- Chưa có kiểm thử chuyên biệt để chứng minh rollback khi SQL gặp lỗi giữa transaction.
-- Dữ liệu seed là dữ liệu minh họa, không phải dữ liệu khách hàng thực tế.
-- Hệ thống hiện phục vụ mục đích học tập và kiểm thử cục bộ, chưa sẵn sàng triển khai công khai.
-
-## 7. Minh chứng và GitHub
-
-Các tài liệu thiết kế được lưu trong thư mục `docs/`, bao gồm SRS, API Contract, kiến trúc, ERD, Use Case và các hình ảnh minh chứng đã thực hiện.
-
-**Repository:** https://github.com/Thephuong-123/cdtn1-nguyenthephuong-l1
+Bài nộp Bài tập 2 dự kiến dùng tag v0.2; chỉ tạo tag sau khi đã kiểm tra và push các thay đổi cuối cùng.
