@@ -72,4 +72,44 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+// DELETE /api/duplicates/:id
+// Chỉ xóa kết quả quét nghi trùng chưa được xử lý (PENDING)
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const result = await duplicateService.deleteCandidate(
+      req.params.id
+    );
+
+    return res.status(200).json(result);
+
+  } catch (error) {
+    if (error.message === 'INVALID_CANDIDATE_ID') {
+      return res.status(400).json({
+        error: 'INVALID_CANDIDATE_ID',
+        message: 'Mã cặp hồ sơ không hợp lệ.'
+      });
+    }
+
+    if (error.message === 'CANDIDATE_NOT_FOUND') {
+      return res.status(404).json({
+        error: 'CANDIDATE_NOT_FOUND',
+        message: 'Không tìm thấy cặp hồ sơ nghi trùng.'
+      });
+    }
+
+    if (error.message === 'CANDIDATE_ALREADY_PROCESSED') {
+      return res.status(409).json({
+        error: 'CANDIDATE_ALREADY_PROCESSED',
+        message: 'Không thể xóa cặp hồ sơ đã được xử lý.'
+      });
+    }
+
+    error.statusCode = 500;
+    error.publicCode = 'INTERNAL_SERVER_ERROR';
+    error.publicMessage = 'Không thể xóa cặp hồ sơ nghi trùng.';
+
+    return next(error);
+  }
+});
+
 module.exports = router;

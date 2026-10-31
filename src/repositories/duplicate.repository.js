@@ -102,9 +102,36 @@ async function insertCandidateIfNotExists(customerId1, customerId2) {
   return result.rowCount > 0;
 }
 
+// Lấy trạng thái cặp nghi trùng, kể cả khi khách hàng không còn hoạt động
+async function findCandidateStatusById(id) {
+  const result = await pool.query(
+    `SELECT candidate_id, status
+     FROM duplicate_candidate
+     WHERE candidate_id = $1`,
+    [id]
+  );
+
+  return result.rows[0] || null;
+}
+
+// Chỉ xóa cặp nghi trùng chưa được xử lý
+async function deletePendingCandidate(id) {
+  const result = await pool.query(
+    `DELETE FROM duplicate_candidate
+     WHERE candidate_id = $1
+       AND status = 'PENDING'
+     RETURNING candidate_id`,
+    [id]
+  );
+
+  return result.rows[0] || null;
+}
+
 module.exports = {
   findAllCandidates,
   findCandidateById,
   findActiveCustomersForScan,
-  insertCandidateIfNotExists
+  insertCandidateIfNotExists,
+  findCandidateStatusById,
+  deletePendingCandidate
 };
