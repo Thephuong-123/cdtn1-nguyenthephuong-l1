@@ -123,3 +123,7 @@ Chưa xác nhận: kiểm thử fresh clone từ bản GitHub đã push; kiểm 
 GitHub: https://github.com/Thephuong-123/cdtn1-nguyenthephuong-l1
 
 Bài nộp Bài tập 2 dự kiến dùng tag v0.2; chỉ tạo tag sau khi đã kiểm tra và push các thay đổi cuối cùng.
+
+Vai trò	Username	Password	Quyền
+Nhân viên (SALES)	sales	MekongDemo@2026!	Xem, quản lý và so sánh hồ sơ
+Quản lý (MANAGER)	manager	MekongDemo@2026!	Các quyền trên và gộp hồ sơ
