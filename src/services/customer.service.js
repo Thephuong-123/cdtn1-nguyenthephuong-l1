@@ -1,3 +1,4 @@
+
 const customerRepository = require('../repositories/customer.repository');
 
 async function getAllCustomers() {
@@ -25,7 +26,15 @@ async function getCustomerByPhone(phone) {
 }
 
 async function createCustomer(data) {
-  if (!data.full_name || !data.phone) {
+  // BUG-002: Kiem tra du lieu bat buoc va dinh dang SDT theo BR2.
+  // SDT phai co dung 10 chu so va bat dau bang so 0.
+  if (
+    !data ||
+    typeof data.full_name !== 'string' ||
+    !data.full_name.trim() ||
+    typeof data.phone !== 'string' ||
+    !/^0\d{9}$/.test(data.phone)
+  ) {
     throw new Error('INVALID_CUSTOMER_DATA');
   }
 
