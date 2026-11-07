@@ -16,6 +16,15 @@ async function getCustomerById(id) {
 }
 
 async function getCustomerByPhone(phone) {
+  // BUG-003: Kiem tra dinh dang SDT truoc khi truy van database.
+  // SDT phai co dung 10 chu so va bat dau bang so 0.
+  if (
+    typeof phone !== 'string' ||
+    !/^0\d{9}$/.test(phone)
+  ) {
+    throw new Error('INVALID_CUSTOMER_DATA');
+  }
+
   const customer = await customerRepository.findByPhone(phone);
 
   if (!customer) {

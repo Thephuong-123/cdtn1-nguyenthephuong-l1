@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 
@@ -18,6 +19,14 @@ router.get('/', async (req, res, next) => {
     return res.json(customers);
 
   } catch (error) {
+    // BUG-003: Tra ve HTTP 400 neu SDT tra cuu sai dinh dang.
+    if (error.message === 'INVALID_CUSTOMER_DATA') {
+      return res.status(400).json({
+        error: 'INVALID_CUSTOMER_DATA',
+        message: 'Số điện thoại không hợp lệ.'
+      });
+    }
+
     if (error.message === 'CUSTOMER_NOT_FOUND') {
       return res.status(404).json({
         error: 'CUSTOMER_NOT_FOUND'
@@ -61,8 +70,8 @@ router.post('/', async (req, res, next) => {
       });
     }
 
-    // Trùng số điện thoại do Service phát hiện
-    // hoặc do PostgreSQL UNIQUE phát hiện (23505)
+    // Trung so dien thoai do Service phat hien
+    // hoac do PostgreSQL UNIQUE phat hien (23505).
     if (
       error.message === 'PHONE_ALREADY_EXISTS' ||
       error.code === '23505'
@@ -95,8 +104,7 @@ router.patch('/:id', async (req, res, next) => {
       });
     }
 
-    // PostgreSQL mã 23505: vi phạm ràng buộc UNIQUE
-    // Ví dụ: cập nhật số điện thoại trùng hồ sơ khác
+    // PostgreSQL ma 23505: vi pham rang buoc UNIQUE.
     if (
       error.code === '23505' ||
       error.message === 'PHONE_ALREADY_EXISTS'
@@ -112,7 +120,7 @@ router.patch('/:id', async (req, res, next) => {
 });
 
 // DELETE /api/customers/:id
-// Xóa mềm bằng is_active = FALSE
+// Xoa mem bang is_active = FALSE
 router.delete('/:id', async (req, res, next) => {
   try {
     const customer = await customerService.deactivateCustomer(req.params.id);
