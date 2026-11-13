@@ -1,0 +1,15 @@
+
+node_modules
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+frontend
+docs
+data
+backup-drawio
+*.log
+*.bak
+coverage
+.DS_Store

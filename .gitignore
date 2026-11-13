@@ -22,3 +22,7 @@ coverage/
 # Editor
 .idea/
 .vscode/settings.json
+
+.env.docker
+
+.env.example.backup
