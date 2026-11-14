@@ -234,3 +234,23 @@ The following items must be reviewed before a non-demo deployment. They remain u
 ---
 
 **Current status:** Local Docker deployment succeeded; the latest development test run passed 17/17 tests; selected real-database authorization scenarios passed. Final clean-clone verification and Git release `v1.0` remain pending.
+
+**Final clean-clone verification – 14 November 2026**
+
+The final GitHub revision `7a7a2fd` was cloned into a separate directory and deployed successfully using Docker Compose project `bt3-final-verify`.
+
+Verification results:
+
+- Independent PostgreSQL Docker volume created successfully.
+- Database, backend, and frontend containers reported Healthy.
+- Backend health endpoint returned HTTP 200 with `{"status":"ok"}`.
+- Unauthenticated customer API returned HTTP 401.
+- Automated tests executed inside the backend container: **17 passed, 0 failed**.
+- Backend and frontend were exposed on ports `3201` and `8281`, respectively.
+
+The deployment verifies reproducibility of the tested revision in an isolated Docker environment. Full end-to-end business workflows were not independently verified during this clean-clone run.
+
+Evidence:
+
+- `docs/screenshots/bt3-docker/final-clean-clone-healthy.png`
+- `docs/screenshots/bt3-docker/final-clean-clone-17-pass.png`

@@ -55,3 +55,21 @@
 ### Limitations
 
 The automated authorization tests use mocked services and database access. The integration checks above use the running Docker application with PostgreSQL. DELETE authorization and concurrent updates have not yet been independently verified through real-database integration tests.
+
+## Final Clean-clone Deployment Verification – 14 November 2026
+
+**Tested Git revision:** `7a7a2fd`
+
+**Test environment:** Independent Docker Compose project `bt3-final-verify`, with a fresh PostgreSQL volume.
+
+| Verification | Actual Result | Status |
+|---|---|---|
+| Clone final revision from GitHub | Commit 7a7a2fd checked out | PASS |
+| Build and start Docker Compose | Three services Healthy | PASS |
+| Verify backend health | HTTP 200, status ok | PASS |
+| Verify unauthenticated API access | HTTP 401 | PASS |
+| Run automated tests in Docker | 17 passed, 0 failed | PASS |
+
+**Conclusion:** The final tested revision can be built and started from a clean clone. Authentication enforcement and the automated test suite passed in the isolated environment.
+
+**Limitation:** This verification does not establish that every frontend workflow or business operation has been tested end to end.
