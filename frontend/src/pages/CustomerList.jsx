@@ -102,7 +102,6 @@ export default function CustomerList({ user }) {
       phone: form.phone.trim(),
       email: form.email.trim() || null,
       address: form.address.trim() || null,
-      created_by: 1, // Nhân viên mẫu; thay bằng ID đăng nhập khi có xác thực
     };
     if (!data.full_name || !phoneIsValid(data.phone)) {
       setFormMessage('Vui lòng nhập họ tên và số điện thoại hợp lệ (10 chữ số, bắt đầu bằng 0).');
@@ -189,6 +188,19 @@ export default function CustomerList({ user }) {
       setUpdating(false);
     }
   }
+
+  // T03: Hien thi chuc nang chinh sua theo quyen tu backend.
+  // MANAGER: moi ho so; SALES: chi ho so do minh tao.
+  const canEditSelected = Boolean(
+    selected && (
+      user?.role === 'MANAGER' ||
+      (
+        user?.role === 'SALES' &&
+        selected.created_by != null &&
+        Number(selected.created_by) === Number(user.user_id)
+      )
+    )
+  );
 
   const pageTitles = {
     overview: 'Tổng quan khách hàng', search: 'Tra cứu hồ sơ',
@@ -351,7 +363,11 @@ export default function CustomerList({ user }) {
             </div>)}
             <div className="modal-actions">
               <button type="button" className="btn-secondary" onClick={closeDetail}>Đóng</button>
-              <button type="button" className="btn-primary" onClick={startEdit}>✎ Chỉnh sửa hồ sơ</button>
+              {canEditSelected && (
+                <button type="button" className="btn-primary" onClick={startEdit}>
+                  ✎ Chỉnh sửa hồ sơ
+                </button>
+              )}
             </div>
           </> : <form onSubmit={handleUpdateCustomer}>
             {[

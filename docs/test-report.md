@@ -1,7 +1,9 @@
 ﻿# TEST REPORT – BÀI TẬP 3
 ## Track SE – Luồng L1: Quản lý và hợp nhất hồ sơ khách hàng
 
-**Trạng thái:** Chưa chạy kiểm thử BT3. Không có test case nào được đánh dấu PASS trước khi chạy.
+**Trạng thái:** Đã thực hiện kiểm thử BT3. Cả 12 test case chính trong báo cáo đều PASS. Bộ kiểm thử tự động phiên bản hiện tại đạt 17/17 PASS. Các kiểm thử tích hợp bổ sung xác nhận HTTP 401 khi chưa xác thực, HTTP 403 khi SALES cập nhật hồ sơ không thuộc quyền, dữ liệu không thay đổi sau yêu cầu bị từ chối và HTTP 200 khi MANAGER cập nhật hợp lệ.
+
+**Phạm vi minh chứng:** Một số test case sử dụng mock, một số được kiểm chứng với PostgreSQL thật. Kết quả kiểm thử không đồng nghĩa đã hoàn thành đánh giá bảo mật toàn diện.
 
 | Mã test | Tiền điều kiện | Các bước thực hiện | Dữ liệu thử | Kết quả mong đợi | Ưu tiên | Kết quả thực tế | PASS/FAIL |
 |---|---|---|---|---|---|---|---|
@@ -20,8 +22,36 @@
 
 ## Minh chứng
 
-Ảnh chụp kết quả chạy từng test case lưu tại:
+Ảnh minh chứng TC-01 đến TC-12 đã được lưu trong `docs/screenshots/`.
 
-docs/screenshots/TC-01.png đến docs/screenshots/TC-12.png
+Ảnh kiểm thử tích hợp bảo mật được lưu trong `docs/screenshots/bt3-security/`:
+- `sales-forbidden-403.png`
+- `manager-update-200.png`
 
-**Lưu ý:** Đường dẫn trên là quy ước đặt tên dự kiến, chưa có nghĩa các ảnh đã tồn tại.
+Ảnh kiểm tra Docker được lưu trong `docs/screenshots/bt3-docker/`.
+
+
+## BT3 – Additional Integration Security Verification (14 November 2026)
+
+**Test environment:** Docker Compose, Node.js/Express, PostgreSQL 16, React frontend and Nginx.
+
+**Test method:** Real HTTP requests against the running Docker application, using authenticated SALES and MANAGER accounts.
+
+| Test ID | Scenario | Input / Preconditions | Expected Result | Actual Result | Status |
+|---|---|---|---|---|---|
+| SEC-INT-01 | Unauthenticated customer access | GET `/api/customers` without JWT | HTTP 401 | HTTP 401 | PASS |
+| SEC-INT-02 | SALES attempts to update another user's customer | SALES user_id=1; PATCH `/api/customers/6`; created_by=2 | HTTP 403 | HTTP 403 | PASS |
+| SEC-INT-03 | Verify no unauthorized data change | Compare customer #6 before and after SEC-INT-02 | Customer data unchanged | JSON comparison returned True | PASS |
+| SEC-INT-04 | MANAGER updates customer profile | Authenticated MANAGER; PATCH `/api/customers/6` using existing values | HTTP 200 | HTTP 200 | PASS |
+
+### Evidence
+
+- Backend automated tests: 17 passed, 0 failed.
+- Frontend production build: successful.
+- Docker services: backend, frontend and database healthy.
+- Unauthorized modification was blocked without changing customer data.
+- Authorized MANAGER request succeeded.
+
+### Limitations
+
+The automated authorization tests use mocked services and database access. The integration checks above use the running Docker application with PostgreSQL. DELETE authorization and concurrent updates have not yet been independently verified through real-database integration tests.

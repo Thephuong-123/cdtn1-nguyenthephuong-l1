@@ -4,9 +4,13 @@ const router = express.Router();
 
 const duplicateService = require('../services/duplicate.service');
 const detectionService = require('../services/duplicate-detection.service');
+const { authenticate } = require('../middleware/auth.middleware');
+
+// T01 - Bat buoc xac thuc JWT cho tat ca API ho so nghi trung.
+router.use(authenticate);
 
 // GET /api/duplicates
-// Lấy danh sách các cặp hồ sơ nghi trùng - US5
+// Lay danh sach cac cap ho so nghi trung - US5
 router.get('/', async (req, res, next) => {
   try {
     const candidates = await duplicateService.getAllCandidates();
@@ -23,7 +27,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // POST /api/duplicates/scan
-// Tự động rà soát và phát hiện hồ sơ nghi trùng
+// Tu dong ra soat va phat hien ho so nghi trung
 router.post('/scan', async (req, res, next) => {
   try {
     const result = await detectionService.scanDuplicates();
@@ -40,7 +44,7 @@ router.post('/scan', async (req, res, next) => {
 });
 
 // GET /api/duplicates/:id
-// Lấy chi tiết một cặp hồ sơ nghi trùng - US6
+// Lay chi tiet mot cap ho so nghi trung - US6
 router.get('/:id', async (req, res, next) => {
   try {
     const candidate = await duplicateService.getCandidateById(
@@ -73,7 +77,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // DELETE /api/duplicates/:id
-// Chỉ xóa kết quả quét nghi trùng chưa được xử lý (PENDING)
+// Chi xoa cap nghi trung chua duoc xu ly (PENDING).
 router.delete('/:id', async (req, res, next) => {
   try {
     const result = await duplicateService.deleteCandidate(
